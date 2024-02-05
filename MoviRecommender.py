@@ -34,7 +34,8 @@ def collapse(t):
         l1.append(i.replace(" ", ""))
     return l1
 
-def generate_similarity(movie):
+
+def generate_similarity():
     df_movie = pd.read_csv('tmdb_5000_movies.csv', header=0)
     df_credtis = pd.read_csv('tmdb_5000_credits.csv', header=0)
     # df_credtis
@@ -61,7 +62,5 @@ def generate_similarity(movie):
 
     # cosine similarity
     similarity = cosine_similarity(vector)
+    return new, similarity
 
-    #saving similarity onto disk (PICKLING)
-    pickle.dump(new,open('movie_list.pkl','wb'))
-    pickle.dump(similarity,open('similarity.pkl','wb'))

@@ -13,7 +13,7 @@ def fetch_poster(movie_id):
     return full_path
 
 
-def recommend(movie):
+def recommend(movie,movies,similarity):
     index = movies[movies['title'] == movie].index[0]
     distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
     recommended_movies= []
@@ -27,18 +27,18 @@ def recommend(movie):
     return recommended_movies,movie_posters
 
 
-st.header('Movie Recommender System')
-movies = pickle.load(open('movie_list.pkl','rb'))
-similarity = pickle.load(open('similarity.pkl','rb'))
+def web(fname1,fname2):
+    st.header('Movie Recommender System')
+    movies = pickle.load(open(fname1, 'rb'))
+    similarity = pickle.load(open(fname2, 'rb'))
 
-movie_list = movies['title'].values
-selected_movie = st.selectbox(
-    "Type or select a movie from the dropdown",
-    movie_list
-)
-def web():
+    movie_list = movies['title'].values
+    selected_movie = st.selectbox(
+        "Type or select a movie from the dropdown",
+        movie_list
+    )
     if st.button('Show Recommendation'):
-        recommended_movie_names,recommended_movie_posters = recommend(selected_movie)
+        recommended_movie_names,recommended_movie_posters = recommend(selected_movie,movies,similarity)
         col1, col2, col3, col4, col5, col6,col7, col8, col9, col10 = st.columns(10)
         with col1:
             st.text(recommended_movie_names[0])
